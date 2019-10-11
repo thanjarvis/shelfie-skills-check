@@ -7,7 +7,8 @@ export default class Form extends React.Component{
         this.state = {
             imgURLInput: '',
             nameInput: '',
-            priceInput: 0
+            priceInput: 0,
+            selectedProductId: null
         }
     }
 
@@ -42,11 +43,32 @@ export default class Form extends React.Component{
 
     }
 
-    handleEditing = () => {
-        this.handleCancel()
-
-        
+    getSpecificProduct = (id) => {
+        axios.get(`api/product/:{id}`)
     }
+
+
+
+
+
+
+
+
+    // handleEdit = (id) => {
+    //     id = this.props.selectedProductId
+    //     this.setState({
+    //         selectedProductId: id
+    //     })
+
+
+    // }
+
+    // componentDidUpdate = (oldProps) => {
+    //     oldProps = this.state.selectedProductId
+    //     if(this.props.selectedProductId === oldProps){
+
+    //     }
+    // }
 
 
 

@@ -27,16 +27,16 @@ class App extends React.Component{
   }
 
   getSelectedProductId = (id) => {
-    let selectedProductId=id
-    // this.setState({
-    //   selectedProductId: id
-    // })
-    console.log(selectedProductId);
+    this.setState({
+      selectedProductId: id
+    })
     
     
   }
 
   render(){
+    console.log(this.state.selectedProductId);
+    
     return (
       <div className="App">
         <Header/>

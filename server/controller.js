@@ -9,6 +9,16 @@ module.exports={
     },
 
 
+
+    getSpecificProduct: (req, res) => {
+        const db = req.app.get('db')
+        const {id} = req.params
+        db.get_specific_product({id}).then(product => {
+            res.status(200).send(product)
+        })
+    },
+
+
     addNewProduct: (req, res) =>{
         const {name, price, img} = req.body
         const db = req.app.get('db')

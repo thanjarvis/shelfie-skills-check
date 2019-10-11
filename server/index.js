@@ -10,6 +10,7 @@ app.use(express.json())
 
 
 app.get('/api/inventory', controller.getInventory)
+app.get('/api/product/:id', controller.getSpecificProduct)
 app.post('/api/product', controller.addNewProduct)
 app.delete('/api/inventory/:id', controller.deleteProduct)
 
