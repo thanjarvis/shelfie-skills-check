@@ -1,26 +1,60 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Dashboard from './Components/Dashboard/Dashboard'
+import Header from './Components/Header/Header'
+import Form from './Components/Form/Form'
+import axios from 'axios';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  constructor(){
+    super()
+    this.state = {
+      inventory: [],
+      selectedProductId: 0
+    }
+  }
+  
+  componentDidMount = () => {
+    this.getInventory()
+  }
+
+
+  getInventory = () => {
+    axios.get('/api/inventory')
+    .then(res => this.setState({
+      inventory: res.data
+    }))
+  }
+
+  getSelectedProductId = (id) => {
+    let selectedProductId=id
+    // this.setState({
+    //   selectedProductId: id
+    // })
+    console.log(selectedProductId);
+    
+    
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <Header/>
+        <div>
+          <Dashboard
+            getInventory={this.getInventory}
+            inventory={this.state.inventory}
+            getSelectedProductId={this.getSelectedProductId}
+          />
+          <Form
+            selectedProductId={this.state.selectedProductId}
+            getInventory={this.getInventory}
+          />
+        </div>
+      </div>
+    )
+
+  }
 }
 
 export default App;
