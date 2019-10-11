@@ -8,7 +8,8 @@ export default class Form extends React.Component{
             imgURLInput: '',
             nameInput: '',
             priceInput: 0,
-            selectedProductId: null
+            selectedProductId: null,
+            selectedProduct: {}
         }
     }
 
@@ -37,43 +38,53 @@ export default class Form extends React.Component{
         const price = this.state.priceInput
         const img = this.state.imgURLInput
         axios.post('/api/product', {name, price, img})
-        // .then(res => {})
         this.handleCancel()
         this.props.getInventory()
 
     }
 
     getSpecificProduct = (id) => {
-        axios.get(`api/product/:{id}`)
+        id = this.props.selectedProductId        
+        axios.get(`api/product/${id}`)
+        .then(res => {
+            console.log(res.data);
+            
+            this.setState({
+                selectedProduct: res.data
+            })
+        })
+    }
+
+
+
+    handleEdit = () => {
+
+        console.log('fire handleEdit');
+        
+        // id = this.props.selectedProductId
+        // this.setState({
+        //     selectedProductId: id
+        // })
+
+
     }
 
 
 
 
 
-
-
-
-    // handleEdit = (id) => {
-    //     id = this.props.selectedProductId
-    //     this.setState({
-    //         selectedProductId: id
-    //     })
-
-
-    // }
-
-    // componentDidUpdate = (oldProps) => {
-    //     oldProps = this.state.selectedProductId
-    //     if(this.props.selectedProductId === oldProps){
-
-    //     }
-    // }
+    componentDidUpdate = (oldProps) => {
+        oldProps = this.state.selectedProductId
+        if(this.state.selectedProduct.id !== oldProps){
+            // this.getSpecificProduct()
+            this.handleEdit()
+        }
+    }
 
 
 
     render(){
-        // console.log(this.props.getInventory);
+        console.log(this.state.selectedProduct);
         
         return(
             <div>
