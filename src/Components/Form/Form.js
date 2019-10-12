@@ -9,7 +9,8 @@ export default class Form extends React.Component{
             nameInput: '',
             priceInput: 0,
             selectedProductId: null,
-            selectedProduct: {}
+            selectedProduct: {},
+            editing: false
         }
     }
 
@@ -43,8 +44,14 @@ export default class Form extends React.Component{
 
     }
 
-    getSpecificProduct = (id) => {
-        id = this.props.selectedProductId        
+
+    deleteProduct = (id) => {
+        axios.delete(`/api/inventory/${id}`)
+        this.props.getInventory()
+    }
+
+    getSpecificProduct = () => {
+        let id = this.props.selectedProductId                
         axios.get(`api/product/${id}`)
         .then(res => {
             console.log(res.data);
@@ -52,40 +59,54 @@ export default class Form extends React.Component{
             this.setState({
                 selectedProduct: res.data
             })
+            this.handleEdit()
+            console.log(this.state.selectedProduct)
+            
         })
     }
 
 
 
     handleEdit = () => {
-
+        document.getElementById('imgURLInput').value = this.state.selectedProduct[0].img
+        document.getElementById('nameInput').value = this.state.selectedProduct[0].name
+        document.getElementById('priceInput').value = this.state.selectedProduct[0].price
         console.log('fire handleEdit');
-        
-        // id = this.props.selectedProductId
-        // this.setState({
-        //     selectedProductId: id
-        // })
-
-
     }
 
+    // updateSpecificProduct = () => {
+    //     let id = this.props.selectedProductId                
+    //     axios.put        
+    // }
+
+    //update the user edited information
+    //return the inventory
+    //set the state of editing to false
 
 
+    componentDidUpdate = (prevProps) => {
+        console.log('first', this.props.selectedProductId, 'second',  prevProps.selectedProductId);
+        
+        if(this.props.selectedProductId !== prevProps.selectedProductId){
+            this.getSpecificProduct()
+            this.setState({
+                editing: true
+            })            
 
-
-    componentDidUpdate = (oldProps) => {
-        oldProps = this.state.selectedProductId
-        if(this.state.selectedProduct.id !== oldProps){
-            // this.getSpecificProduct()
-            this.handleEdit()
         }
+        console.log('hit what should be the first console log');
+        
+
+
     }
 
+//questions about how the component did update fires, becasue it seems to be firing twice, the first everything outside of the if statement, the second time everything inside the if statement. makes the page re-render each time as well
 
 
-    render(){
-        console.log(this.state.selectedProduct);
-        
+    render(){ 
+        // console.log(this.state.editing);
+
+
         return(
             <div>
                 <h1>Form</h1>
@@ -110,9 +131,20 @@ export default class Form extends React.Component{
                 <button
                     onClick={() => this.handleCancel()}
                 >Cancel</button>
-                <button
+
+               
+               
+               
+                {this.state.editing? (<button>Edit</button>) : (<button
                     onClick={() => this.postInventory()}
-                >Add To Inventory</button>
+                >Add To Inventory</button>)}
+
+
+
+
+                {/* <button
+                    onClick={() => this.postInventory()}
+                >Add To Inventory</button> */}
             </div>
         )
     }
