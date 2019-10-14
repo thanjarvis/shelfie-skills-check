@@ -30,7 +30,7 @@ module.exports={
             res.status(200).send(products)
         })
         .catch(err => console.log(err))
-        
+    
     },
     deleteProduct: (req, res) => {
         const {id} = req.params
@@ -40,6 +40,18 @@ module.exports={
             res.sendStatus(200)
         })
         .catch(err => res.status(500).send(err))
+    },
+
+    updateProduct: (req, res) => {
+        const {id} = req.params
+        const {name, price, img} = req.body
+        const db = req.app.get('db')
+        
+
+        db.update_product({name, price, img, id}).then(product => {
+            res.status(200).send(product)
+        })
+        
     }
 
 

@@ -57,6 +57,9 @@ export default class Form extends React.Component{
             console.log(res.data);
             
             this.setState({
+                nameInput: res.data[0].name,
+                priceInput: res.data[0].price,
+                imgURLInput: res.data[0].img,
                 selectedProduct: res.data
             })
             this.handleEdit()
@@ -74,10 +77,20 @@ export default class Form extends React.Component{
         console.log('fire handleEdit');
     }
 
-    // updateSpecificProduct = () => {
-    //     let id = this.props.selectedProductId                
-    //     axios.put        
-    // }
+    updateSpecificProduct = () => {
+        console.log(this.state.nameInput);
+        
+        let id = this.props.selectedProductId 
+        let name=this.state.nameInput              
+        let price=this.state.priceInput               
+        let img=this.state.imgURLInput              
+        axios.put(`/api/product/${id}`, {name, price, img})
+        this.props.getInventory()
+        this.setState({
+            editing: false
+        }) 
+        this.handleCancel()
+    }
 
     //update the user edited information
     //return the inventory
@@ -100,7 +113,6 @@ export default class Form extends React.Component{
 
     }
 
-//questions about how the component did update fires, becasue it seems to be firing twice, the first everything outside of the if statement, the second time everything inside the if statement. makes the page re-render each time as well
 
 
     render(){ 
@@ -135,7 +147,9 @@ export default class Form extends React.Component{
                
                
                
-                {this.state.editing? (<button>Edit</button>) : (<button
+                {this.state.editing? (<button
+                    onClick={() => this.updateSpecificProduct()}
+                >Save Changes</button>) : (<button
                     onClick={() => this.postInventory()}
                 >Add To Inventory</button>)}
 
