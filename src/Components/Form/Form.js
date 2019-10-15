@@ -30,7 +30,8 @@ export default class Form extends React.Component{
         this.setState({
             imgURLInput: '',
             nameInput: '',
-            priceInput: 0
+            priceInput: 0,
+            editing:false
         })
     }
 
