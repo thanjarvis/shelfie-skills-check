@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios';
+import {Route, Link, Switch} from 'react-router-dom'
+
 
 export default class Form extends React.Component{
     constructor(props){
@@ -14,6 +16,18 @@ export default class Form extends React.Component{
         }
     }
 
+
+    componentDidMount = () => {
+        let {selectedItem} = this.props
+        if(selectedItem){
+            this.setState({
+                imgURLInput: selectedItem.img,
+                nameInput: selectedItem.name,
+                priceInput: selectedItem.price,
+                editing:true
+            })
+        }
+    }
 
     handleChange = (e) => {
         let {name} = e.target
@@ -75,7 +89,7 @@ export default class Form extends React.Component{
         document.getElementById('imgURLInput').value = this.state.selectedProduct[0].img
         document.getElementById('nameInput').value = this.state.selectedProduct[0].name
         document.getElementById('priceInput').value = this.state.selectedProduct[0].price
-        console.log('fire handleEdit');
+        // console.log('fire handleEdit');
     }
 
     updateSpecificProduct = () => {
@@ -117,7 +131,9 @@ export default class Form extends React.Component{
 
 
     render(){ 
-        // console.log(this.state.editing);
+        // console.log(this.props.selectedItem);
+        // console.log(this.state);
+        
 
 
         return(
@@ -125,34 +141,39 @@ export default class Form extends React.Component{
                 <h1>Form</h1>
                 <input
                     id='imgURLInput'
+                    value = {this.state.imgURLInput}
                     name='imgURLInput'
                     placeholder='Image URL'
                     onChange={(e) => this.handleChange(e)}
                 />
                 <input
+                    value = {this.state.nameInput}
+
                     id='nameInput'
                     name='nameInput'
                     placeholder='Product Name'
                     onChange={(e) => this.handleChange(e)}
                 />
                 <input
+                    value = {this.state.priceInput}
+
                     id='priceInput'
                     name='priceInput'
                     placeholder='Product Price'
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button
+                <Link to='/'><button
                     onClick={() => this.handleCancel()}
-                >Cancel</button>
+                >Cancel</button></Link>
 
                
                
                
-                {this.state.editing? (<button
+                {this.state.editing? (<Link to='/'><button
                     onClick={() => this.updateSpecificProduct()}
-                >Save Changes</button>) : (<button
+                >Save Changes</button></Link>) : (<Link to='/'><button
                     onClick={() => this.postInventory()}
-                >Add To Inventory</button>)}
+                >Add To Inventory</button></Link>)}
 
 
 

@@ -14,7 +14,7 @@ export default class Dashboard extends React.Component{
 
 
     render(){
-        console.log(this.props.getInventory);
+        // console.log(this.props.getSelectedProductId);
         
         return(
             <div>
@@ -25,6 +25,7 @@ export default class Dashboard extends React.Component{
                      
                         return (
                                 <Product
+                                    key={element.id}
                                     getSelectedProductId={this.props.getSelectedProductId}
                                     id={element.id}
                                     name={element.name}

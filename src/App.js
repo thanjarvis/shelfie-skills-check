@@ -14,7 +14,8 @@ class App extends React.Component{
     super()
     this.state = {
       inventory: [],
-      selectedProductId: 0
+      selectedProductId: 0,
+      selectedItem: {}
     }
   }
   
@@ -28,18 +29,31 @@ class App extends React.Component{
     .then(res => this.setState({
       inventory: res.data
     }))
+    .catch(err => console.log(err))
   }
 
   getSelectedProductId = (id) => {
     this.setState({
-      selectedProductId: id
+      selectedProductId: id,
     })
+    // console.log(this.state.inventory[1].id);
+    console.log(id);
     
+
+    const selectedObj = this.state.inventory.find(index => index.id === id)
+    console.log(this.state.inventory)
+    console.log(selectedObj);
     
+    this.setState({
+      selectedItem: selectedObj
+    })
+        
   }
 
+
+
   render(){
-    console.log(this.state.selectedProductId);
+    console.log(this.state.selectedItem);
     
     return (
       <div className="App">
@@ -69,6 +83,8 @@ class App extends React.Component{
 
           <Route path='/edit/:id' render={(props) => {return(
             <Form
+            {...props}
+            selectedItem={this.state.selectedItem}
             selectedProductId={this.state.selectedProductId}
             getInventory={this.getInventory}
             />

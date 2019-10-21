@@ -2,7 +2,20 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 export default class Product extends React.Component{
+    constructor(){
+        super()
+        this.state = {
+            editUrl: '',
+            editName: '',
+            editPrice: 0
+        }
+    }
+
+
+
     render(){
+        // console.log(this.props.getSelectedProductId);
+        
         return(
             <div>
                 <div>
@@ -20,7 +33,9 @@ export default class Product extends React.Component{
                         onClick={this.props.deleteProduct}
                     >Delete</button>
                     <Link to='/edit/:id'><button
-                        onClick={() => this.props.getSelectedProductId(this.props.id)}
+                        onClick={() => this.props.getSelectedProductId(this.props.id)
+                            
+                        }
                     >Edit</button></Link>
                 </div>
             </div>

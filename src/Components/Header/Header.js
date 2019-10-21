@@ -5,7 +5,7 @@ export default class Header extends React.Component{
     render(){
         return(
             <div>
-                <p>Shelfie Image</p>
+                <p>Shelfie</p>
                 <Link to='/'><button>Dashboard</button></Link>
                 <Link to='/add'><button>Add Inventory</button></Link>
             </div>

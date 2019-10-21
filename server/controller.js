@@ -2,7 +2,8 @@ module.exports={
 
     getInventory: (req, res) => {
         const db = req.app.get('db')
-        db.get_inventory().then(products => {
+        // why was it throwing an error when i used the db variable?
+        req.app.get('db').get_inventory().then(products => {
             res.status(200).send(products)
         })        
         .catch(err => console.log(err))
@@ -51,6 +52,7 @@ module.exports={
         db.update_product({name, price, img, id}).then(product => {
             res.status(200).send(product)
         })
+        .catch(err => console.log(err))
         
     }
 
